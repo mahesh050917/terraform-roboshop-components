@@ -21,3 +21,7 @@ data "aws_ami" "joindevops" {
 data "aws_ssm_parameter" "sg_id" {
   name = "/${var.project}/${var.env}/${var.components}_sg_id"
 }
+
+data "aws_ssm_parameter" "vpc_id" {
+  name = "/${var.project}/${var.env}/vpc_id"
+}

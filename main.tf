@@ -150,11 +150,11 @@ resource "aws_autoscaling_policy" "main" {
     listener_arn =  local.backend_listener_arn
     action {
        type = "forward"
-       target_group_arn = aws_lb_target_group.main.arn
+       target_group_arn = local.target_group_arn
     }
     condition {
        host_header {
-          values = ["${var.components}.backend-alb-${var.env}.${local.zone_name}"]
+          values = [local.host_header]
        }
     }
   }

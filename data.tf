@@ -17,3 +17,7 @@ data "aws_ami" "joindevops" {
     values = ["hvm"]
   }
 }
+
+data "aws_ssm_parameter" "sg_id" {
+  name = "/${var.project}/${var.env}/${var.components}_sg_id"
+}

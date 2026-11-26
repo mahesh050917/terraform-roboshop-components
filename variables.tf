@@ -28,3 +28,6 @@ variable "health_check_port" {
    default = ""
 }
 
+variable "rule_priority" {
+  default = ""
+}

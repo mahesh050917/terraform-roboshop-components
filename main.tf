@@ -3,7 +3,7 @@ resource "aws_instance" "main" {
   instance_type = var.instance_type
   subnet_id = local.private_subnet_ids[0]
   vpc_security_group_ids = [ local.sg_id ]
-  tags = merge(var.tags, {Name = "${var.project}-${var.env}-${var.component}"}, local.common_tags)
+  tags = merge(var.tags, {Name = "${var.project}-${var.env}-${var.components}"}, local.common_tags)
 
  
 }
@@ -26,7 +26,7 @@ resource "terraform_data" "main_bootstrap" {
    provisioner "remote-exec" {
       inline = [ 
             "chmod +x /tmp/bootstrap.sh",
-            "sudo sh /tmp/bootstrap.sh ${var.component} ${var.env} ${var.app_version}"
+            "sudo sh /tmp/bootstrap.sh ${var.components} ${var.env} ${var.app_version}"
        ]
    }
 }
@@ -39,7 +39,7 @@ resource "aws_ec2_instance_state" "main" {
 }
 
 resource "aws_ami_from_instance" "main" {
-    name = "${var.project}-${var.env}-${var.component}"
+    name = "${var.project}-${var.env}-${var.components}"
     source_instance_id = aws_instance.main.id
 
     depends_on = [ aws_ec2_instance_state.main ]
@@ -47,7 +47,7 @@ resource "aws_ami_from_instance" "main" {
 
 
 resource "aws_lb_target_group" "main" {
-  name        = "${var.project}-${var.env}-${var.component}"
+  name        = "${var.project}-${var.env}-${var.components}"
   target_type = "instance"
   port        = 8080
   protocol    = "HTTP"
@@ -67,7 +67,7 @@ resource "aws_lb_target_group" "main" {
 
 
 resource "aws_launch_template" "main" {
-  name = "${var.project}-${var.env}-${var.component}"
+  name = "${var.project}-${var.env}-${var.components}"
   image_id = aws_ami_from_instance.catalogue.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [local.sg_id]
@@ -76,23 +76,23 @@ resource "aws_launch_template" "main" {
   tag_specifications {
     resource_type = "instance"
 
-    tags = merge( {Name = "${var.project}-${var.env}-${var.component}"} , local.common_tags)
+    tags = merge( {Name = "${var.project}-${var.env}-${var.components}"} , local.common_tags)
 
   }
 
   tag_specifications {
     resource_type = "volume"
 
-    tags = merge( {Name = "${var.project}-${var.env}-${var.component}"} , local.common_tags)
+    tags = merge( {Name = "${var.project}-${var.env}-${var.components}"} , local.common_tags)
 
   }
 
-  tags = merge( {Name = "${var.project}-${var.env}-${var.component}"} , local.common_tags)
+  tags = merge( {Name = "${var.project}-${var.env}-${var.components}"} , local.common_tags)
 }
 
 
 resource "aws_autoscaling_group" "main" {
-  name = "${var.project}-${var.env}-${var.component}"
+  name = "${var.project}-${var.env}-${var.components}"
   vpc_zone_identifier = local.private_subnet_ids
   desired_capacity   = 2
   max_size           = 10
@@ -118,7 +118,7 @@ resource "aws_autoscaling_group" "main" {
  
 
   dynamic "tag" {
-     for_each = merge({Name = "${var.project}-${var.env}-${var.component}"} , local.common_tags)
+     for_each = merge({Name = "${var.project}-${var.env}-${var.components}"} , local.common_tags)
 
      content {
         key = tag.key
@@ -132,7 +132,7 @@ resource "aws_autoscaling_group" "main" {
 
 resource "aws_autoscaling_policy" "main" {
   autoscaling_group_name = aws_autoscaling_group.main.name
-  name                   = "${var.project}-${var.env}-${var.component}"
+  name                   = "${var.project}-${var.env}-${var.componentss}"
   policy_type            = "TargetTrackingScaling"
   estimated_instance_warmup = 120 
   target_tracking_configuration {

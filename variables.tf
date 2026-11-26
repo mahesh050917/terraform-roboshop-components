@@ -31,3 +31,8 @@ variable "health_check_port" {
 variable "rule_priority" {
   type = number
 }
+
+
+variable "health_check_path" {
+   default = "/health"
+}

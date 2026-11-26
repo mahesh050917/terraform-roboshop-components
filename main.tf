@@ -46,6 +46,7 @@ resource "aws_ami_from_instance" "main" {
 }
 
 
+
 resource "aws_lb_target_group" "main" {
   name        = "${var.project}-${var.env}-${var.components}"
   target_type = "instance"
@@ -54,9 +55,9 @@ resource "aws_lb_target_group" "main" {
   vpc_id      = local.vpc_id
   health_check {
     enabled = true
-    port = var.health_check_port
+    port = local.health_check_port
     protocol = "HTTP"
-    path = "/health" 
+    path = local.health_check_path
     healthy_threshold = 2 
     unhealthy_threshold = 2
     interval = 10

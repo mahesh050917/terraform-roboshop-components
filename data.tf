@@ -40,3 +40,7 @@ data "aws_ssm_parameter" "private_subnet_ids" {
 data "aws_ssm_parameter" "backend_listener_arn" {
   name        = "/${var.project}/${var.env}/backend_listener_arn"
 }
+
+data "aws_ssm_parameter" "frontend_listener_arn" {
+  name        = "/${var.project}/${var.env}/frontend_listener_arn"
+}

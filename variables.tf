@@ -21,7 +21,7 @@ variable "app_version" {
 }
 
 variable "component" {
-  default = ""
+  type = string
 }
 
 variable "health_check_port" {
@@ -29,5 +29,5 @@ variable "health_check_port" {
 }
 
 variable "rule_priority" {
-  default = ""
+  type = number
 }

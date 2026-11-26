@@ -68,7 +68,7 @@ resource "aws_lb_target_group" "main" {
 
 resource "aws_launch_template" "main" {
   name = "${var.project}-${var.env}-${var.components}"
-  image_id = aws_ami_from_instance.catalogue.id
+  image_id = aws_ami_from_instance.main.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [local.sg_id]
   update_default_version = true 

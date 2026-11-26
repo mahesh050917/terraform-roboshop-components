@@ -25,3 +25,8 @@ data "aws_ssm_parameter" "sg_id" {
 data "aws_ssm_parameter" "vpc_id" {
   name = "/${var.project}/${var.env}/vpc_id"
 }
+
+data "aws_route53_zone" "daws88s_zone" {
+  name         = "daws88s.shop"
+  private_zone = false
+}

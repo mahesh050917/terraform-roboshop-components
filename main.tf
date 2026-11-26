@@ -132,7 +132,7 @@ resource "aws_autoscaling_group" "main" {
 
 resource "aws_autoscaling_policy" "main" {
   autoscaling_group_name = aws_autoscaling_group.main.name
-  name                   = "${var.project}-${var.env}-${var.componentss}"
+  name                   = "${var.project}-${var.env}-${var.components}"
   policy_type            = "TargetTrackingScaling"
   estimated_instance_warmup = 120 
   target_tracking_configuration {

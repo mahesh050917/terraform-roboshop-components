@@ -153,7 +153,7 @@ resource "aws_autoscaling_policy" "main" {
     }
     condition {
        host_header {
-          values = ["catalogue.backend-alb-${var.env}.${local.zone_name}"]
+          values = ["${var.components}.backend-alb-${var.env}.${local.zone_name}"]
        }
     }
   }

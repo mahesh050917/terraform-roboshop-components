@@ -20,7 +20,7 @@ variable "app_version" {
   default = "v3"
 }
 
-variable "component" {
+variable "components" {
   type = string
 }
 

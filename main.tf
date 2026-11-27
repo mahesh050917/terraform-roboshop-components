@@ -148,10 +148,10 @@ resource "aws_autoscaling_policy" "main" {
 
   resource "aws_alb_listener_rule" "main" {
     priority = var.rule_priority
-    listener_arn =  local.backend_listener_arn
+    listener_arn =  local.listener_arn
     action {
        type = "forward"
-       target_group_arn = local.target_group_arn
+       target_group_arn = aws_lb_target_group.main.arn
     }
     condition {
        host_header {

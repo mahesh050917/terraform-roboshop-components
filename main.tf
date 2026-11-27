@@ -93,6 +93,7 @@ resource "aws_launch_template" "main" {
 
 
 resource "aws_autoscaling_group" "main" {
+  
   name = "${var.project}-${var.env}-${var.components}"
   vpc_zone_identifier = local.private_subnet_ids
   desired_capacity   = 2
@@ -150,7 +151,7 @@ resource "aws_autoscaling_policy" "main" {
     listener_arn =  local.backend_listener_arn
     action {
        type = "forward"
-       target_group_arn = aws_lb_target_group.main.arn
+       target_group_arn = local.target_group_arn
     }
     condition {
        host_header {
@@ -159,11 +160,11 @@ resource "aws_autoscaling_policy" "main" {
     }
   }
 
-  resource "terraform_data" "main_delete" {
-     depends_on = [ aws_autoscaling_policy.main ]
-     triggers_replace = [ aws_instance.main.id ]
+  # resource "terraform_data" "main_delete" {
+  #    depends_on = [ aws_autoscaling_policy.main ]
+  #    triggers_replace = [ aws_instance.main.id ]
 
-     provisioner "local-exec" {
-         command = "aws ec2 terminate-instances --instance-ids ${aws_instance.main.id}"
-     }
-  }
+  #    provisioner "local-exec" {
+  #        command = "aws ec2 terminate-instances --instance-ids ${aws_instance.main.id}"
+  #    }
+  # }

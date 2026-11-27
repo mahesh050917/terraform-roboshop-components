@@ -50,7 +50,7 @@ resource "aws_ami_from_instance" "main" {
 resource "aws_lb_target_group" "main" {
   name        = "${var.project}-${var.env}-${var.components}"
   target_type = "instance"
-  port        = 8080
+  port = var.components == "frontend" ? 80 : 8080
   protocol    = "HTTP"
   vpc_id      = local.vpc_id
   health_check {
